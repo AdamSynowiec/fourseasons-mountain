@@ -35,12 +35,7 @@ const Gallery = () => {
         const fetchImages = async () => {
             try {
                 const response = await fetch(
-                    `${Config.url.baseUrl}/acp/api/content/items/fmgallery?sort={_o:1}`,
-                    {
-                        headers: {
-                            api_key: Config.rest.apiKey
-                        }
-                    }
+                    `${Config.url.baseUrl}/acp/api/content/items/fmgallery?sort={_o:1}&api_key=${Config.rest.apiKey}`
                 );
 
                 if (!response.ok) {
@@ -89,6 +84,24 @@ const Gallery = () => {
         }
     };
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!selectedImage) return;
+
+            if (e.key === "ArrowRight") {
+                handleNext(e);
+            } else if (e.key === "ArrowLeft") {
+                handlePrev(e);
+            } else if (e.key === "Escape") {
+                setSelectedImage(null);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [selectedImage, currentIndex, images]);
+
     if (loading) return <></>;
     if (error) return <p>Error: {error}</p>;
 
@@ -100,7 +113,7 @@ const Gallery = () => {
             <div className="overflow-hidden w-full px-4 relative">
                 <motion.div
                     ref={carouselRef}
-                    className="flex cursor-grab active:cursor-grabbing"
+                    className="flex cursor-e-resize active:cursor-e-resize"
                     drag="x"
                     dragConstraints={{ right: 0, left: -width }}
                     onDragStart={() => setDragged(true)}

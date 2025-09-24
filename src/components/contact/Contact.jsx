@@ -11,6 +11,7 @@ const FloatingInput = ({ label, name, type = "text", value, onChange }) => {
     return (
         <div className="relative mb-8">
             <input
+                id={name}
                 type={type}
                 name={name}
                 value={value}
@@ -135,6 +136,7 @@ const Contact = () => {
 
                             <div className="relative mb-8">
                                 <textarea
+                                    id="message"
                                     name="message"
                                     value={formData.message}
                                     onChange={handleChange}
@@ -155,7 +157,7 @@ const Contact = () => {
                                     checked={formData.privacyAccepted}
                                     onChange={handleChange}
                                 />
-                                <label htmlFor="privacyAccepted" className="text-white pl-4">Wyrażam zgodę na przetwarzanie moich danych osobowych oraz potwierdzam, że zapoznałem się z treścią <Link to={"/polityka-prywatnosci"} className="underline hover:no-underline">Polityki prywatności</Link></label>
+                                <label htmlFor="privacyAccepted" className="text-white pl-4">Wyrażam zgodę na przetwarzanie moich danych osobowych oraz potwierdzam, że zapoznałem się z treścią <Link to={"/"} target="_blank" className="underline hover:no-underline">Polityki prywatności</Link></label>
                                 {errors.privacyAccepted && (
                                     <p className="text-red-500 text-sm mt-1">{errors.privacyAccepted}</p>
                                 )}
